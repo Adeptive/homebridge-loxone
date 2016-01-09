@@ -3,13 +3,12 @@
 var LoxoneAPI = require('loxone-nodejs');
 var LoxoneTemperatureSensor = require('./types/TemperatureSensor');
 
-var Service, Characteristic, uuid;
+var Service, Characteristic;
 
 module.exports = function(homebridge) {
 
     Service = homebridge.hap.Service;
     Characteristic = homebridge.hap.Characteristic;
-    uuid = homebridge.hap.uuid;
 
     //console.log(Service);
 
@@ -58,7 +57,7 @@ LoxonePlatform.prototype = {
 
 LoxonePlatform.prototype.getAccessory = function(accessory, platform) {
     if (accessory.type == 'TemperatureSensor') {
-        return new LoxoneTemperatureSensor(accessory, platform, Service, Characteristic, uuid);
+        return new LoxoneTemperatureSensor(accessory, platform, Service, Characteristic);
     }
     return undefined;
 };

@@ -1,4 +1,4 @@
-function LoxoneTemperature(config, platform, Service, Characteristic, uuid) {
+function LoxoneTemperature(config, platform, Service, Characteristic) {
     this.log = platform.log;
     this.type = "TemperatureSensor";
     this.platform = platform;
@@ -7,9 +7,7 @@ function LoxoneTemperature(config, platform, Service, Characteristic, uuid) {
     this.name = config.name;
     this.input = config.input;
 
-    var sensorUUID = uuid.generate('hap-nodejs:loxone-accessories:temperature-badkamer');
-
-    this._service = new Service.TemperatureSensor(this.name, sensorUUID);
+    this._service = new Service.TemperatureSensor(this.name);
     this._service.getCharacteristic(Characteristic.CurrentTemperature)
         .on('get', this._getValue.bind(this));
 }
