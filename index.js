@@ -58,7 +58,7 @@ LoxonePlatform.prototype = {
                 for(var i in accessoriesList) {
                     var config = accessoriesList[i];
 
-                    var accesory = new AccessoryClass(config, platform, HAP);
+                    var accessory = new AccessoryClass(config, platform, HAP);
                     if (accessory != undefined) {
                         myAccessories.push(accessory);
                     } else {
