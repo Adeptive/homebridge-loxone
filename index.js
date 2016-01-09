@@ -19,7 +19,12 @@ function LoxonePlatform(log, config) {
     this.username = config['username'];
     this.password = config['password'];
 
-    console.log(config);
+    this.loxone = new LoxoneAPI({
+        ip: "10.0.1.25",
+        debug: false,
+        username: "admin",
+        password: "il7ect8it0jerj"
+    });
 }
 
 LoxonePlatform.prototype = {
@@ -31,21 +36,12 @@ LoxonePlatform.prototype = {
         //create array of accessories
         var myAccessories = [];
 
-
-
-        var loxone = new LoxoneAPI({
-            ip: "10.0.1.25",
-            debug: false,
-            username: "admin",
-            password: "il7ect8it0jerj"
-        });
-
         var config = {
             "name": "Temperatuur Keuken",
             "input": "AWI3"
         };
 
-        myAccessories.push(new LoxoneTemperature(this.log, config, platform, loxone));
+        myAccessories.push(new LoxoneTemperature(this.log, config, platform));
 
         // if done, return the array to callback function
         callback(myAccessories);
@@ -53,22 +49,21 @@ LoxonePlatform.prototype = {
 };
 
 
-function LoxoneTemperature(log, config, platform, loxone) {
+function LoxoneTemperature(log, config, platform) {
     this.log = log;
     this.name = config.name;
     this.model = "Loxone";
     this.type = "Temperature";
     this.platform = platform;
-    this.loxone = loxone;
-
-    console.log(platform);
+    this.loxone = platform.loxone;
+    this.input = config.input;
 
     console.log(Service);
 
-    this._service = new Service.TemperatureSensor(this.name)
-        .getCharacteristic(Characteristic.CurrentTemperature)
+    this._service = new Service.TemperatureSensor(this.name);
+    this._service.getCharacteristic(Characteristic.CurrentTemperature)
         .on('get', function(callback) {
-            loxone.getTemperatuurBureau(function(value) {
+            loxone.getValue(config.input, function(value) {
                 callback(null, value * 1);
             });
         });
