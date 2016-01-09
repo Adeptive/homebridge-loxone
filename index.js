@@ -8,8 +8,6 @@ module.exports = function(homebridge) {
     Characteristic = homebridge.hap.Characteristic;
 
     homebridge.registerPlatform("homebridge-loxone", "Loxone", LoxonePlatform);
-
-    homebridge.registerAccessory("homebridge-loxone", "LoxoneTemperature", LoxoneTemperature);
 };
 
 function LoxonePlatform(log, config) {
@@ -26,12 +24,17 @@ LoxonePlatform.prototype = {
     accessories: function(callback) {
         this.log("Fetching LoxonePlatform accessories.");
 
+        var platform = this;
+
         //create array of accessories
         var myAccessories = [];
 
-        this.log(this.ip_address);
+        var config = {
+            "name": "Temperatuur Keuken",
+            "input": "AWI3"
+        };
 
-        //myAccessories.push(new Loxone(this.log, this));
+        myAccessories.push(new LoxoneTemperature(this.log, config, platform));
 
         // if done, return the array to callback function
         callback(myAccessories);
@@ -39,10 +42,14 @@ LoxonePlatform.prototype = {
 };
 
 
-
-function LoxoneTemperature(log, config) {
+function LoxoneTemperature(log, config, platform) {
     this.log = log;
     this.name = config.name;
+    this.model = "Loxone";
+    this.type = "Temperature";
+    this.platform = platform;
+
+    console.log(platform);
 
     this._service = new Service.Switch(this.name);
     this._service.getCharacteristic(Characteristic.On)
