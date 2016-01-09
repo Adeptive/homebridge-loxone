@@ -19,7 +19,7 @@ LoxoneTemperature.prototype._getValue = function(callback) {
 };
 
 LoxoneTemperature.prototype.getServices = function() {
-    return [this._service, this.platform.getInformationService(this.name)];
+    return [this._service, this.platform.getInformationService(this)];
 };
 
 module.exports = LoxoneTemperature;

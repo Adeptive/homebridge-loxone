@@ -62,12 +62,12 @@ LoxonePlatform.prototype.getAccessory = function(accessory, platform) {
     return undefined;
 };
 
-LoxonePlatform.prototype.getInformationService = function(accessoryName) {
+LoxonePlatform.prototype.getInformationService = function(accessory) {
     var informationService = new Service.AccessoryInformation();
     informationService
-        .setCharacteristic(Characteristic.Name, accessoryName)
+        .setCharacteristic(Characteristic.Name, accessory.name)
         .setCharacteristic(Characteristic.Manufacturer, 'Loxone')
         .setCharacteristic(Characteristic.Model, '1.0.0')
-        .setCharacteristic(Characteristic.SerialNumber, '<unknown>');
+        .setCharacteristic(Characteristic.SerialNumber, accessory.input);
     return informationService;
 };
