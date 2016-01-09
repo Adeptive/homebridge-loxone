@@ -19,12 +19,12 @@ module.exports = function(homebridge) {
     homebridge.registerPlatform("homebridge-loxone", "Loxone", LoxonePlatform);
 };
 
-var sensorsTypes = [
-    'TemperatureSensors',
-    'HumiditySensors',
-    'AirQualitySensors',
-    'Outlets'
-];
+var sensorsTypes = {
+    'TemperatureSensors': LoxoneTemperatureSensor,
+    'HumiditySensors': LoxoneHumiditySensor,
+    'AirQualitySensors': LoxoneAirQuality,
+    'Outlets': LoxoneOutlet
+};
 
 function LoxonePlatform(log, config) {
     this.log = log;
@@ -48,15 +48,17 @@ LoxonePlatform.prototype = {
         //create array of accessories
         var myAccessories = [];
 
-        for (var j in sensorsTypes) {
-            var type = sensorsTypes[j];
+        for (var type in sensorsTypes) {
+            var AccessoryClass = sensorsTypes[j];
 
-            var temperatureSensors = platform.config[type];
-            if (temperatureSensors != undefined) {
-                for(var i in temperatureSensors) {
-                    var config = temperatureSensors[i];
+            console.log(type);
 
-                    var accessory = platform.getAccessory(config, platform, type);
+            var accessoriesList = platform.config[type];
+            if (accessoriesList != undefined) {
+                for(var i in accessoriesList) {
+                    var config = accessoriesList[i];
+
+                    var accesory = new AccessoryClass(config, platform, HAP);
                     if (accessory != undefined) {
                         myAccessories.push(accessory);
                     } else {
@@ -69,19 +71,6 @@ LoxonePlatform.prototype = {
         // if done, return the array to callback function
         callback(myAccessories);
     }
-};
-
-LoxonePlatform.prototype.getAccessory = function(accessory, platform, type) {
-    if (type == 'TemperatureSensor') {
-        return new LoxoneTemperatureSensor(accessory, platform, HAP);
-    } else if (type == 'HumiditySensor') {
-        return new LoxoneHumiditySensor(accessory, platform, HAP);
-    } else if (type == 'AirQualitySensor') {
-        return new LoxoneAirQuality(accessory, platform, HAP);
-    } else if (type == 'Outlet') {
-        return new LoxoneOutlet(accessory, platform, HAP);
-    }
-    return undefined;
 };
 
 LoxonePlatform.prototype.getInformationService = function(accessory) {
