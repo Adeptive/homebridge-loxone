@@ -7,9 +7,9 @@ module.exports = function(homebridge) {
     Service = homebridge.hap.Service;
     Characteristic = homebridge.hap.Characteristic;
 
-    //homebridge.registerAccessory("homebridge-loxone", "Loxone", Loxone);
-
     homebridge.registerPlatform("homebridge-loxone", "Loxone", LoxonePlatform);
+
+    homebridge.registerAccessory("homebridge-loxone", "LoxoneTemperature", LoxoneTemperature);
 };
 
 function LoxonePlatform(log, config) {
@@ -18,6 +18,8 @@ function LoxonePlatform(log, config) {
     this.ip_address = config['ip_address'];
     this.username = config['username'];
     this.password = config['password'];
+
+    console.log(config);
 }
 
 LoxonePlatform.prototype = {
@@ -29,7 +31,7 @@ LoxonePlatform.prototype = {
 
         this.log(this.ip_address);
 
-        myAccessories.push(new Loxone(this.log, this));
+        //myAccessories.push(new Loxone(this.log, this));
 
         // if done, return the array to callback function
         callback(myAccessories);
@@ -38,7 +40,7 @@ LoxonePlatform.prototype = {
 
 
 
-function Loxone(log, config) {
+function LoxoneTemperature(log, config) {
     this.log = log;
     this.name = config.name;
 
@@ -47,11 +49,11 @@ function Loxone(log, config) {
         .on('set', this._setOn.bind(this));
 }
 
-Loxone.prototype.getServices = function() {
+LoxoneTemperature.prototype.getServices = function() {
     return [this._service];
 };
 
-Loxone.prototype._setOn = function(on, callback) {
+LoxoneTemperature.prototype._setOn = function(on, callback) {
 
     this.log("Setting switch to " + on);
 
