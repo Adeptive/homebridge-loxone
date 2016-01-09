@@ -37,20 +37,25 @@ LoxonePlatform.prototype = {
         //create array of accessories
         var myAccessories = [];
 
-        console.log(platform);
+        for(var i in platform.accessoriesList) {
+            var config = platform.accessoriesList[i];
 
-        for(var accessory in platform.accessoriesList) {
-            console.log(accessory);
+            var accessory = platform.getAccessory(config, platform);
+            if (accessory != undefined) {
+                myAccessories.push(accessory);
+            } else {
+                this.log.error("Could not initialize accessory", config);
+            }
         }
-
-        var config = {
-            "name": "Temperatuur Keuken",
-            "input": "AWI3"
-        };
-
-        myAccessories.push(new LoxoneTemperatureSensor(config, platform, Service, Characteristic));
 
         // if done, return the array to callback function
         callback(myAccessories);
     }
+};
+
+LoxonePlatform.prototype.getAccessory = function(accessory, platform) {
+    if (accessory.type == 'TemperatureSensor') {
+        return new LoxoneTemperatureSensor(accessory, platform, Service, Characteristic);
+    }
+    return undefined;
 };
