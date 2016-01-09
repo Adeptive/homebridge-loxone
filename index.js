@@ -2,6 +2,7 @@
 
 var LoxoneAPI = require('loxone-nodejs');
 var LoxoneTemperatureSensor = require('./types/TemperatureSensor');
+var LoxoneHumiditySensor = require('./types/HumiditySensor');
 
 var Service, Characteristic;
 
@@ -58,6 +59,8 @@ LoxonePlatform.prototype = {
 LoxonePlatform.prototype.getAccessory = function(accessory, platform) {
     if (accessory.type == 'TemperatureSensor') {
         return new LoxoneTemperatureSensor(accessory, platform, Service, Characteristic);
+    } else if (accessory.type == 'HumiditySensor') {
+        return new LoxoneHumiditySensor(accessory, platform, Service, Characteristic);
     }
     return undefined;
 };
