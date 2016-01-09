@@ -74,11 +74,20 @@ LoxonePlatform.prototype = {
 };
 
 LoxonePlatform.prototype.getInformationService = function(accessory) {
+    var serial = '';
+    if (accessory.input != undefined) {
+        serial += accessory.input + "-";
+    }
+    if (accessory.output != undefined) {
+        serial += accessory.output + "-";
+    }
+    serial += '-loxone';
+
     var informationService = new Service.AccessoryInformation();
     informationService
         .setCharacteristic(Characteristic.Name, accessory.name)
         .setCharacteristic(Characteristic.Manufacturer, 'Loxone')
         .setCharacteristic(Characteristic.Model, '1.0.0')
-        .setCharacteristic(Characteristic.SerialNumber, accessory.input);
+        .setCharacteristic(Characteristic.SerialNumber, serial);
     return informationService;
 };
