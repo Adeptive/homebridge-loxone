@@ -19,10 +19,17 @@ module.exports = function(homebridge) {
     homebridge.registerPlatform("homebridge-loxone", "Loxone", LoxonePlatform);
 };
 
+var sensorsTypes = [
+    'TemperatureSensors',
+    'HumiditySensors',
+    'AirQualitySensors',
+    'Outlets'
+];
+
 function LoxonePlatform(log, config) {
     this.log = log;
     this.debug = log.debug;
-    this.accessoriesList = config['accessories'];
+    this.config = config;
 
     this.loxone = new LoxoneAPI({
         ip: config['ip_address'],
@@ -31,8 +38,6 @@ function LoxonePlatform(log, config) {
         password: config['password']
     });
 }
-
-
 
 LoxonePlatform.prototype = {
     accessories: function(callback) {
@@ -43,14 +48,21 @@ LoxonePlatform.prototype = {
         //create array of accessories
         var myAccessories = [];
 
-        for(var i in platform.accessoriesList) {
-            var config = platform.accessoriesList[i];
+        for (var j in sensorsTypes) {
+            var type = sensorsTypes[j];
 
-            var accessory = platform.getAccessory(config, platform);
-            if (accessory != undefined) {
-                myAccessories.push(accessory);
-            } else {
-                this.log.error("Could not initialize accessory", config);
+            var temperatureSensors = platform.config[type];
+            if (temperatureSensors != undefined) {
+                for(var i in temperatureSensors) {
+                    var config = temperatureSensors[i];
+
+                    var accessory = platform.getAccessory(config, platform, type);
+                    if (accessory != undefined) {
+                        myAccessories.push(accessory);
+                    } else {
+                        this.log.error("Could not initialize accessory", config);
+                    }
+                }
             }
         }
 
@@ -59,14 +71,14 @@ LoxonePlatform.prototype = {
     }
 };
 
-LoxonePlatform.prototype.getAccessory = function(accessory, platform) {
-    if (accessory.type == 'TemperatureSensor') {
+LoxonePlatform.prototype.getAccessory = function(accessory, platform, type) {
+    if (type == 'TemperatureSensor') {
         return new LoxoneTemperatureSensor(accessory, platform, HAP);
-    } else if (accessory.type == 'HumiditySensor') {
+    } else if (type == 'HumiditySensor') {
         return new LoxoneHumiditySensor(accessory, platform, HAP);
-    } else if (accessory.type == 'AirQualitySensor') {
+    } else if (type == 'AirQualitySensor') {
         return new LoxoneAirQuality(accessory, platform, HAP);
-    } else if (accessory.type == 'Outlet') {
+    } else if (type == 'Outlet') {
         return new LoxoneOutlet(accessory, platform, HAP);
     }
     return undefined;
