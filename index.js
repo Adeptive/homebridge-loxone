@@ -49,7 +49,7 @@ LoxonePlatform.prototype = {
         var myAccessories = [];
 
         for (var type in sensorsTypes) {
-            var AccessoryClass = sensorsTypes[j];
+            var AccessoryClass = sensorsTypes[type];
 
             console.log(type);
 
