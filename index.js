@@ -81,7 +81,7 @@ LoxonePlatform.prototype.getInformationService = function(accessory) {
     if (accessory.output != undefined) {
         serial += accessory.output + "-";
     }
-    serial += '-loxone';
+    serial += 'loxone';
 
     var informationService = new Service.AccessoryInformation();
     informationService
