@@ -18,6 +18,7 @@ module.exports = function(homebridge) {
 function LoxonePlatform(log, config) {
     this.log = log;
     this.debug = log.debug;
+    this.accessoriesList = config['accessories'];
 
     this.loxone = new LoxoneAPI({
         ip: config['ip_address'],
@@ -36,7 +37,9 @@ LoxonePlatform.prototype = {
         //create array of accessories
         var myAccessories = [];
 
-        for(var accessory in platform.accessories) {
+        console.log(platform);
+
+        for(var accessory in platform.accessoriesList) {
             console.log(accessory);
         }
 
