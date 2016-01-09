@@ -1,0 +1,24 @@
+{
+  "name": "homebridge-loxone",
+  "version": "1.0.0",
+  "description": "Homebridge Loxone",
+  "author": "CONNCTED",
+  "dependencies": {
+    "loxone-nodejs": "git+https://github.com/CONNCTED/Loxone-NodeJS.git"
+  },
+  "license": "ISC",
+  "keywords": [
+    "homebridge-plugin"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/CONNCTED/homebridge-loxone.git"
+  },
+  "bugs": {
+    "url": "http://github.com/CONNCTED/homebridge-loxone/issues"
+  },
+  "engines": {
+    "node": ">=0.12.0",
+    "homebridge": ">=0.2.0"
+  }
+}
