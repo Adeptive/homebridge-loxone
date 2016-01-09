@@ -1,5 +1,7 @@
 "use strict";
 
+var LoxoneAPI = require('loxone-nodejs');
+
 var Service, Characteristic;
 
 module.exports = function(homebridge) {
@@ -29,12 +31,21 @@ LoxonePlatform.prototype = {
         //create array of accessories
         var myAccessories = [];
 
+
+
+        var loxone = new LoxoneAPI({
+            ip: "10.0.1.25",
+            debug: false,
+            username: "admin",
+            password: "il7ect8it0jerj"
+        });
+
         var config = {
             "name": "Temperatuur Keuken",
             "input": "AWI3"
         };
 
-        myAccessories.push(new LoxoneTemperature(this.log, config, platform));
+        myAccessories.push(new LoxoneTemperature(this.log, config, platform, loxone));
 
         // if done, return the array to callback function
         callback(myAccessories);
@@ -42,27 +53,36 @@ LoxonePlatform.prototype = {
 };
 
 
-function LoxoneTemperature(log, config, platform) {
+function LoxoneTemperature(log, config, platform, loxone) {
     this.log = log;
     this.name = config.name;
     this.model = "Loxone";
     this.type = "Temperature";
     this.platform = platform;
+    this.loxone = loxone;
 
     console.log(platform);
 
-    this._service = new Service.Switch(this.name);
-    this._service.getCharacteristic(Characteristic.On)
-        .on('set', this._setOn.bind(this));
+    console.log(Service);
+
+    this._service = new Service.TemperatureSensor(this.name)
+        .getCharacteristic(Characteristic.CurrentTemperature)
+        .on('get', function(callback) {
+            loxone.getTemperatuurBureau(function(value) {
+                callback(null, value * 1);
+            });
+        });
 }
 
 LoxoneTemperature.prototype.getServices = function() {
     return [this._service];
 };
 
-LoxoneTemperature.prototype._setOn = function(on, callback) {
+/*LoxoneTemperature.prototype._setOn = function(on, callback) {
 
     this.log("Setting switch to " + on);
+
+    //this.loxone.getValue()
 
     if (on) {
         setTimeout(function() {
@@ -71,4 +91,4 @@ LoxoneTemperature.prototype._setOn = function(on, callback) {
     }
 
     callback();
-};
+};*/
