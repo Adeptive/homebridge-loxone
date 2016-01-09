@@ -9,6 +9,8 @@ module.exports = function(homebridge) {
     Service = homebridge.hap.Service;
     Characteristic = homebridge.hap.Characteristic;
 
+    //console.log(Service);
+
     homebridge.registerPlatform("homebridge-loxone", "Loxone", LoxonePlatform);
 };
 
@@ -55,19 +57,35 @@ function LoxoneTemperature(log, config, platform) {
     this.model = "Loxone";
     this.type = "Temperature";
     this.platform = platform;
-    this.loxone = platform.loxone;
     this.input = config.input;
-
-    console.log(Service);
+    this.loxone = platform.loxone;
 
     this._service = new Service.TemperatureSensor(this.name);
     this._service.getCharacteristic(Characteristic.CurrentTemperature)
-        .on('get', function(callback) {
-            loxone.getValue(config.input, function(value) {
+        .on('get', this._getValue.bind(this));
+
+        /*.on('get', function(callback) {
+            platform.loxone.getValue(config.input, function(value) {
                 callback(null, value * 1);
             });
-        });
+        });*/
 }
+
+LoxoneTemperature.prototype._getValue = function(callback) {
+    this.loxone.getValue(this.input, function(value) {
+        callback(null, value * 1);
+    });
+
+    /*this.log("Setting switch to " + on);
+
+    if (on) {
+        setTimeout(function() {
+            this._service.setCharacteristic(Characteristic.On, false);
+        }.bind(this), 1000);
+    }*/
+
+    //callback();
+};
 
 LoxoneTemperature.prototype.getServices = function() {
     return [this._service];
