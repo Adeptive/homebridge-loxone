@@ -9,19 +9,24 @@
 	"description": "This is an example configuration for the Loxone homebridge plugin",
 
 	"accessories": [
-		{
-			"accessory": "Loxone",
-			"name": "Temperature kitchen"
-		}
+
 	],
 
 	"platforms": [
 		{
 			"platform": "Loxone",
 			"name": "Loxone",
-			"ip_address": "10.0.1.25",
-			"username": "admin",
-			"password": "il7ect8it0jerj"
+			"ip_address": "",
+			"username": "",
+			"password": "",
+			"accessories": [
+				{
+					"accessory": "TemperatureSensor",
+					"name": "Temperature kitchen",
+					"input": "AWI3"
+				}
+			]
+
 		}
 	]
 }
