@@ -21,15 +21,15 @@ LoxoneAirQuality.prototype._getValue = function(callback) {
     this.loxone.getValue(this.input, function(value) {
 
         if (value >= 1100) {
-            callback(Characteristic.AirQuality.POOR);
+            callback(null, Characteristic.AirQuality.POOR);
         } else if (value >= 950) {
-            callback(Characteristic.AirQuality.INFERIOR);
+            callback(null, Characteristic.AirQuality.INFERIOR);
         } else if (value >= 800) {
-            callback(Characteristic.AirQuality.FAIR);
+            callback(null, Characteristic.AirQuality.FAIR);
         } else if (value >= 650) {
-            callback(Characteristic.AirQuality.GOOD);
+            callback(null, Characteristic.AirQuality.GOOD);
         } else {
-            callback(Characteristic.AirQuality.EXCELLENT);
+            callback(null, Characteristic.AirQuality.EXCELLENT);
         }
 
     });
