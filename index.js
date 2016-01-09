@@ -4,6 +4,7 @@ var LoxoneAPI = require('loxone-nodejs');
 var LoxoneTemperatureSensor = require('./types/TemperatureSensor');
 var LoxoneHumiditySensor = require('./types/HumiditySensor');
 var LoxoneAirQuality = require('./types/AirQualitySensor');
+var LoxoneOutlet = require('./types/Outlet');
 
 var Service, Characteristic, HAP;
 
@@ -65,6 +66,8 @@ LoxonePlatform.prototype.getAccessory = function(accessory, platform) {
         return new LoxoneHumiditySensor(accessory, platform, HAP);
     } else if (accessory.type == 'AirQualitySensor') {
         return new LoxoneAirQuality(accessory, platform, HAP);
+    } else if (accessory.type == 'Outlet') {
+        return new LoxoneOutlet(accessory, platform, HAP);
     }
     return undefined;
 };
