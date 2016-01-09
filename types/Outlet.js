@@ -20,6 +20,9 @@ function LoxoneOutlet(config, platform, hap) {
     this._service.getCharacteristic(Characteristic.On)
         .on('set', this._setValue.bind(this));
 
+
+    this._service.getCharacteristic(Characteristic.OutletInUse)
+        .on('get', this._inUse.bind(this));
 }
 
 LoxoneOutlet.prototype._getValue = function(callback) {
@@ -41,6 +44,10 @@ LoxoneOutlet.prototype._setValue = function(on, callback) {
         }
 
     });
+};
+
+LoxoneOutlet.prototype._inUse = function(callback) {
+    callback(null, true);
 };
 
 LoxoneOutlet.prototype.getServices = function() {
