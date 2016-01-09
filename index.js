@@ -3,13 +3,15 @@
 var LoxoneAPI = require('loxone-nodejs');
 var LoxoneTemperatureSensor = require('./types/TemperatureSensor');
 var LoxoneHumiditySensor = require('./types/HumiditySensor');
+var LoxoneAirQuality = require('./types/AirQualitySensor');
 
-var Service, Characteristic;
+var Service, Characteristic, HAP;
 
 module.exports = function(homebridge) {
 
     Service = homebridge.hap.Service;
     Characteristic = homebridge.hap.Characteristic;
+    HAP = homebridge.hap;
 
     //console.log(Service);
 
@@ -58,9 +60,11 @@ LoxonePlatform.prototype = {
 
 LoxonePlatform.prototype.getAccessory = function(accessory, platform) {
     if (accessory.type == 'TemperatureSensor') {
-        return new LoxoneTemperatureSensor(accessory, platform, Service, Characteristic);
+        return new LoxoneTemperatureSensor(accessory, platform, HAP);
     } else if (accessory.type == 'HumiditySensor') {
-        return new LoxoneHumiditySensor(accessory, platform, Service, Characteristic);
+        return new LoxoneHumiditySensor(accessory, platform, HAP);
+    } else if (accessory.type == 'AirQualitySensor') {
+        return new LoxoneAirQuality(accessory, platform, HAP);
     }
     return undefined;
 };

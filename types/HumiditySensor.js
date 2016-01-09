@@ -1,8 +1,13 @@
-function LoxoneHumidity(config, platform, Service, Characteristic) {
+var Service, Characteristic;
+
+function LoxoneHumidity(config, platform, hap) {
     this.log = platform.log;
     this.type = "HumiditySensor";
     this.platform = platform;
     this.loxone = platform.loxone;
+
+    Service = hap.Service;
+    Characteristic = hap.Characteristic;
 
     this.name = config.name;
     this.input = config.input;

@@ -1,8 +1,13 @@
-function LoxoneTemperature(config, platform, Service, Characteristic) {
+var Service, Characteristic;
+
+function LoxoneTemperature(config, platform, hap) {
     this.log = platform.log;
     this.type = "TemperatureSensor";
     this.platform = platform;
     this.loxone = platform.loxone;
+
+    Service = hap.Service;
+    Characteristic = hap.Characteristic;
 
     this.name = config.name;
     this.input = config.input;
