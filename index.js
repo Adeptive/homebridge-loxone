@@ -31,11 +31,12 @@ function LoxonePlatform(log, config) {
     this.debug = log.debug;
     this.config = config;
 
+    if (!this.config['ip_address']) throw new Error("You must provide an ip address of your Loxone.");
+
     this.loxone = new LoxoneAPI({
         ip: config['ip_address'],
-        debug: false,
-        username: config['username'],
-        password: config['password']
+        username: config['username'] || 'admin',
+        password: config['password'] || 'admin'
     });
 }
 
@@ -50,8 +51,6 @@ LoxonePlatform.prototype = {
 
         for (var type in sensorsTypes) {
             var AccessoryClass = sensorsTypes[type];
-
-            console.log(type);
 
             var accessoriesList = platform.config[type];
             if (accessoriesList != undefined) {
