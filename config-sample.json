@@ -21,29 +21,25 @@
 			"password": "",
 			"TemperatureSensors":[
 				{
-					"type": "TemperatureSensor",
-					"name": "Temperatuur bureau",
+					"name": "Temperature kitchen",
 					"input": "AWI3"
 				}
 			],
 			"HumiditySensors":[
 				{
-					"type": "HumiditySensor",
-					"name": "Luchtvochtigheid badkamer",
+					"name": "Humidity bathroom",
 					"input": "AI_SEN3-RH"
 				}
 			],
 			"AirQualitySensors":[
 				{
-					"type": "AirQualitySensor",
-					"name": "Luchtkwaliteit leefruimte",
+					"name": "Air quality kitchen",
 					"input": "AI_SEN2-CO2"
 				}
 			],
 			"Outlets":[
 				{
-					"type": "Outlet",
-					"name": "Kerstboom",
+					"name": "Socket",
 					"input": "I_I6",
 					"output": "Q_I6"
 				}
