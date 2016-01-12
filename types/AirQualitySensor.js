@@ -18,13 +18,15 @@ function LoxoneAirQuality(config, platform, hap) {
 
     this._service.getCharacteristic(Characteristic.AirParticulateDensity)
         .on('get', this._getValue.bind(this));
-
-
-
 }
 
 LoxoneAirQuality.prototype._getGroup = function(callback) {
     this.loxone.getValue(this.input, function(value) {
+
+        if (value == undefined) {
+            callback(new Error("Could not get value for " + this.input));
+            return;
+        }
 
         if (value >= 1100) {
             callback(null, Characteristic.AirQuality.POOR);
@@ -43,6 +45,11 @@ LoxoneAirQuality.prototype._getGroup = function(callback) {
 
 LoxoneAirQuality.prototype._getValue = function(callback) {
     this.loxone.getValue(this.input, function(value) {
+
+        if (value == undefined) {
+            callback(new Error("Could not get value for " + this.input));
+            return;
+        }
 
         callback(null, value * 1);
 

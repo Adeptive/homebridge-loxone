@@ -27,6 +27,10 @@ function LoxoneOutlet(config, platform, hap) {
 
 LoxoneOutlet.prototype._getValue = function(callback) {
     this.loxone.getValue(this.output, function(value) {
+        if (value == undefined) {
+            callback(new Error("Could not get value for " + this.input));
+            return;
+        }
         callback(null, value * 1);
     });
 };
@@ -36,6 +40,11 @@ LoxoneOutlet.prototype._setValue = function(on, callback) {
     var input = this.input;
     var output = this.output;
     loxone.getValue(output, function(value) {
+        if (value == undefined) {
+            callback(new Error("Could not get value for " + this.input));
+            return;
+        }
+
         var isOn = (value != 0);
         if (isOn != on) {
             loxone.set(input, "Pulse", function(value) {

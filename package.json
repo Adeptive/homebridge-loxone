@@ -4,7 +4,7 @@
   "description": "Homebridge Loxone",
   "author": "CONNCTED",
   "dependencies": {
-    "loxone-nodejs": "0.0.3"
+    "loxone-nodejs": "0.0.4"
   },
   "license": "ISC",
   "keywords": [
