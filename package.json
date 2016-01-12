@@ -1,10 +1,10 @@
 {
   "name": "homebridge-loxone",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Homebridge Loxone",
   "author": "CONNCTED",
   "dependencies": {
-    "loxone-nodejs": "0.0.2"
+    "loxone-nodejs": "0.0.3"
   },
   "license": "ISC",
   "keywords": [
