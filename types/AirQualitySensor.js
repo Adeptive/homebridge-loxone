@@ -45,12 +45,15 @@ LoxoneAirQuality.prototype._getGroup = function(callback) {
 };
 
 LoxoneAirQuality.prototype._getValue = function(callback) {
+    var accessory = this;
     this.loxone.getValue(this.input, function(value) {
 
         if (value == undefined) {
             callback(new Error("Could not get value for " + this.input));
             return;
         }
+
+        accessory.log(accessory.name + " is " + value);
 
         callback(null, value * 1);
 
