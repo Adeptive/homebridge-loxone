@@ -2,7 +2,7 @@ var inherits = require('util').inherits;
 
 var Service, Characteristic;
 
-function LoxoneOutlet(config, platform, hap) {
+function LoxoneLightbulb(config, platform, hap) {
     this.log = platform.log;
     this.platform = platform;
     this.loxone = platform.loxone;
@@ -14,19 +14,15 @@ function LoxoneOutlet(config, platform, hap) {
     this.input = config.input;
     this.output = config.output;
 
-    this._service = new Service.Outlet(this.name);
+    this._service = new Service.Lightbulb(this.name);
     this._service.getCharacteristic(Characteristic.On)
         .on('get', this._getValue.bind(this));
 
     this._service.getCharacteristic(Characteristic.On)
         .on('set', this._setValue.bind(this));
-
-
-    this._service.getCharacteristic(Characteristic.OutletInUse)
-        .on('get', this._inUse.bind(this));
 }
 
-LoxoneOutlet.prototype._getValue = function(callback) {
+LoxoneLightbulb.prototype._getValue = function(callback) {
     this.loxone.getValue(this.output, function(value) {
         if (value == undefined) {
             callback(new Error("Could not get value for " + this.input));
@@ -36,7 +32,7 @@ LoxoneOutlet.prototype._getValue = function(callback) {
     });
 };
 
-LoxoneOutlet.prototype._setValue = function(on, callback) {
+LoxoneLightbulb.prototype._setValue = function(on, callback) {
     var loxone = this.loxone;
     var input = this.input;
     var output = this.output;
@@ -60,12 +56,8 @@ LoxoneOutlet.prototype._setValue = function(on, callback) {
     });
 };
 
-LoxoneOutlet.prototype._inUse = function(callback) {
-    callback(null, true);
-};
-
-LoxoneOutlet.prototype.getServices = function() {
+LoxoneLightbulb.prototype.getServices = function() {
     return [this._service, this.platform.getInformationService(this)];
 };
 
-module.exports = LoxoneOutlet;
+module.exports = LoxoneLightbulb;

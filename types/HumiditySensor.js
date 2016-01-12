@@ -1,8 +1,9 @@
+var inherits = require('util').inherits;
+
 var Service, Characteristic;
 
 function LoxoneHumidity(config, platform, hap) {
     this.log = platform.log;
-    this.type = "HumiditySensor";
     this.platform = platform;
     this.loxone = platform.loxone;
 
