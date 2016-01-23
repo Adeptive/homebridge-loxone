@@ -57,7 +57,7 @@ LoxoneDimmer.prototype._setValue = function(on, callback) {
     });
 };
 
-LoxoneDimmer.prototype._getValue = function(callback) {
+LoxoneDimmer.prototype._getBrightnessValue = function(callback) {
     var accessory = this;
     this.loxone.getValue(this.output, function(value) {
         if (value == undefined) {
@@ -69,7 +69,7 @@ LoxoneDimmer.prototype._getValue = function(callback) {
     });
 };
 
-LoxoneDimmer.prototype._setValue = function(value, callback) {
+LoxoneDimmer.prototype._setBrightnessValue = function(value, callback) {
     var loxone = this.loxone;
     var input = this.input;
 
