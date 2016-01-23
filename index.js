@@ -6,6 +6,7 @@ var LoxoneHumiditySensor = require('./types/HumiditySensor');
 var LoxoneAirQuality = require('./types/AirQualitySensor');
 var LoxoneOutlet = require('./types/Outlet');
 var LoxoneLightbulb = require('./types/Lightbulb');
+var LoxoneDimmer = require('./types/Dimmer');
 
 var Service, Characteristic, HAP;
 
@@ -25,7 +26,8 @@ var sensorsTypes = {
     'HumiditySensors': LoxoneHumiditySensor,
     'AirQualitySensors': LoxoneAirQuality,
     'Outlets': LoxoneOutlet,
-    'LightBulbs': LoxoneLightbulb
+    'LightBulbs': LoxoneLightbulb,
+    'Dimmers': LoxoneDimmer
 };
 
 function LoxonePlatform(log, config) {
