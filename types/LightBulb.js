@@ -37,24 +37,15 @@ LoxoneLightbulb.prototype._getValue = function(callback) {
 LoxoneLightbulb.prototype._setValue = function(on, callback) {
     var loxone = this.loxone;
     var input = this.input;
-    var output = this.output;
-    loxone.getValue(output, function(value) {
+
+    var command = on ? "On": "Off";
+
+    loxone.set(input, command, function(value) {
         if (value == undefined) {
-            callback(new Error("Could not get value for " + output));
+            callback(new Error("Could not set value for " + input + " to " + command));
             return;
         }
-
-        var isOn = (value != 0);
-        if (isOn != on) {
-            loxone.set(input, "Pulse", function(value) {
-                if (value == undefined) {
-                    callback(new Error("Could not get value for " + input));
-                    return;
-                }
-                callback();
-            });
-        }
-
+        callback();
     });
 };
 
