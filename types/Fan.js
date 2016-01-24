@@ -40,7 +40,7 @@ LoxoneFan.prototype._getValue = function(callback) {
             return;
         }
 
-        var on = value != '0';
+        var on = value != '0.0';
 
         accessory.log(accessory.name + " is " + value, on);
         callback(null, on);
@@ -74,10 +74,12 @@ LoxoneFan.prototype._getRotationSpeedValue = function(callback) {
             return;
         }
 
-        var speed = value;
+        if (accessory.factor != undefined) {
+            value = value / accessory.factor;
+        }
 
-        accessory.log("Rotation speed " + accessory.name + " is " + speed);
-        callback(null, speed * 1);
+        accessory.log("Rotation speed " + accessory.name + " is " + value);
+        callback(null, value * 1);
     });
 };
 
