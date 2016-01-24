@@ -34,25 +34,32 @@ LoxoneDimmer.prototype._getValue = function(callback) {
     var accessory = this;
     this.loxone.getValue(this.output, function(value) {
         if (value == undefined) {
-            callback(new Error("Could not get value for " + this.input));
+            accessory.log.error(accessory.name + " is undefined when getting value");
+            callback(new Error("Could not get value for " + this.output));
             return;
         }
-        accessory.log(accessory.name + " is " + value);
-        callback(null, value != '0.0');
+
+        var on = value != '0.0';
+
+        accessory.log(accessory.name + " is " + value, on);
+        callback(null, on);
     });
 };
 
 LoxoneDimmer.prototype._setValue = function(on, callback) {
     var loxone = this.loxone;
     var input = this.input;
+    var accessory = this;
 
     var command = on ? "On": "Off";
 
     loxone.set(input, command, function(value) {
         if (value == undefined) {
+            accessory.log.error(accessory.name + " is undefined when setting value");
             callback(new Error("Could not set value for " + input + " to " + command));
             return;
         }
+        accessory.log("Set value of " + accessory.name + " to " + command);
         callback();
     });
 };
