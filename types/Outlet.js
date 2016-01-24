@@ -30,35 +30,33 @@ LoxoneOutlet.prototype._getValue = function(callback) {
     var accessory = this;
     this.loxone.getValue(this.output, function(value) {
         if (value == undefined) {
-            callback(new Error("Could not get value for " + this.input));
+            accessory.log.error(accessory.name + " is undefined when getting value");
+            callback(new Error("Could not get value for " + this.output));
             return;
         }
-        accessory.log(accessory.name + " is " + value);
-        callback(null, value == '1');
+
+        var on = value != '0';
+
+        accessory.log(accessory.name + " is " + value, on);
+        callback(null, on);
     });
 };
 
 LoxoneOutlet.prototype._setValue = function(on, callback) {
     var loxone = this.loxone;
     var input = this.input;
-    var output = this.output;
-    loxone.getValue(output, function(value) {
+    var accessory = this;
+
+    var command = on ? "On": "Off";
+
+    loxone.set(input, command, function(value) {
         if (value == undefined) {
-            callback(new Error("Could not get value for " + output));
+            accessory.log.error(accessory.name + " is undefined when setting value");
+            callback(new Error("Could not set value for " + input + " to " + command));
             return;
         }
-
-        var isOn = (value != 0);
-        if (isOn != on) {
-            loxone.set(input, "Pulse", function(value) {
-                if (value == undefined) {
-                    callback(new Error("Could not get value for " + input));
-                    return;
-                }
-                callback();
-            });
-        }
-
+        accessory.log("Set value of " + accessory.name + " to " + command);
+        callback();
     });
 };
 

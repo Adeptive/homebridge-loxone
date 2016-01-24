@@ -2,7 +2,7 @@ var inherits = require('util').inherits;
 
 var Service, Characteristic;
 
-function LoxoneDimmer(config, platform, hap) {
+function LoxoneFan(config, platform, hap) {
     this.log = platform.log;
     this.platform = platform;
     this.loxone = platform.loxone;
@@ -14,7 +14,7 @@ function LoxoneDimmer(config, platform, hap) {
     this.input = config.input;
     this.output = config.output;
 
-    this._service = new Service.Lightbulb(this.name);
+    this._service = new Service.Fan(this.name);
     this._service.getCharacteristic(Characteristic.On)
         .on('get', this._getValue.bind(this));
 
@@ -22,15 +22,15 @@ function LoxoneDimmer(config, platform, hap) {
         .on('set', this._setValue.bind(this));
 
 
-    this._service.getCharacteristic(Characteristic.Brightness)
-        .on('get', this._getBrightnessValue.bind(this));
+    this._service.getCharacteristic(Characteristic.RotationSpeed)
+        .on('get', this._getRotationSpeedValue.bind(this));
 
-    this._service.getCharacteristic(Characteristic.Brightness)
-        .on('set', this._setBrightnessValue.bind(this));
+    this._service.getCharacteristic(Characteristic.RotationSpeed)
+        .on('set', this._setRotationSpeedValue.bind(this));
 
 }
 
-LoxoneDimmer.prototype._getValue = function(callback) {
+LoxoneFan.prototype._getValue = function(callback) {
     var accessory = this;
     this.loxone.getValue(this.output, function(value) {
         if (value == undefined) {
@@ -39,14 +39,14 @@ LoxoneDimmer.prototype._getValue = function(callback) {
             return;
         }
 
-        var on = value != '0.0';
+        var on = value != '0';
 
         accessory.log(accessory.name + " is " + value, on);
         callback(null, on);
     });
 };
 
-LoxoneDimmer.prototype._setValue = function(on, callback) {
+LoxoneFan.prototype._setValue = function(on, callback) {
     var loxone = this.loxone;
     var input = this.input;
     var accessory = this;
@@ -64,33 +64,42 @@ LoxoneDimmer.prototype._setValue = function(on, callback) {
     });
 };
 
-LoxoneDimmer.prototype._getBrightnessValue = function(callback) {
+LoxoneFan.prototype._getRotationSpeedValue = function(callback) {
     var accessory = this;
     this.loxone.getValue(this.output, function(value) {
         if (value == undefined) {
-            callback(new Error("Could not get value for " + this.input));
+            accessory.log.error("Brightness " + accessory.name + " is undefined when getting value");
+            callback(new Error("Could not get value for " + this.output));
             return;
         }
-        accessory.log(accessory.name + " is " + value);
-        callback(null, value * 10);
+
+        var speed = value;
+
+        accessory.log("Rotation speed " + accessory.name + " is " + speed);
+        callback(null, speed * 1);
     });
 };
 
-LoxoneDimmer.prototype._setBrightnessValue = function(value, callback) {
+LoxoneFan.prototype._setRotationSpeedValue = function(value, callback) {
     var loxone = this.loxone;
     var input = this.input;
+    var accessory = this;
 
-    loxone.set(input, value, function(value) {
-        if (value == undefined) {
+    value = value / 10;
+
+    loxone.set(input, value, function(setValue) {
+        if (setValue == undefined) {
+            accessory.log.error("Rotation speed " + accessory.name + " is undefined when setting value");
             callback(new Error("Could not set value for " + input + " to " + value));
             return;
         }
+        accessory.log("Set rotation speed of " + accessory.name + " to ", value);
         callback();
     });
 };
 
-LoxoneDimmer.prototype.getServices = function() {
+LoxoneFan.prototype.getServices = function() {
     return [this._service, this.platform.getInformationService(this)];
 };
 
-module.exports = LoxoneDimmer;
+module.exports = LoxoneFan;
