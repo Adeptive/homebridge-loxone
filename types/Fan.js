@@ -13,6 +13,7 @@ function LoxoneFan(config, platform, hap) {
     this.name = config.name;
     this.input = config.input;
     this.output = config.output;
+    this.factor = config.factor;
 
     this._service = new Service.Fan(this.name);
     this._service.getCharacteristic(Characteristic.On)
@@ -85,7 +86,9 @@ LoxoneFan.prototype._setRotationSpeedValue = function(value, callback) {
     var input = this.input;
     var accessory = this;
 
-    value = value / 10;
+    if (this.factor != undefined) {
+        value = value * this.factor;
+    }
 
     loxone.set(input, value, function(setValue) {
         if (setValue == undefined) {
