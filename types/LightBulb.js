@@ -9,6 +9,7 @@ var Service, Characteristic;
  *  * Dimmer
  *  * Dimmer-%
  *  * RGB
+ *  * StairwayLS
  *
  * @param config
  * @param platform
@@ -71,6 +72,9 @@ LoxoneLightbulb.prototype._setValue = function(on, callback) {
     var accessory = this;
 
     var command = on ? "On": "Off";
+    if (accessory.type == 'StairwayLS' && on) {
+        command = "pulse";
+    }
 
     loxone.set(input, command, function(value) {
         if (value == undefined) {
