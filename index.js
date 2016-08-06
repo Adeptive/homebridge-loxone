@@ -5,7 +5,7 @@ var LoxoneTemperatureSensor = require('./types/TemperatureSensor');
 var LoxoneHumiditySensor = require('./types/HumiditySensor');
 var LoxoneAirQuality = require('./types/AirQualitySensor');
 var LoxoneOutlet = require('./types/Outlet');
-var LoxoneLightbulb = require('./types/Lightbulb');
+var LoxoneLightbulb = require('./types/LightBulb');
 var LoxoneFan = require('./types/Fan');
 
 var Service, Characteristic, HAP;
