@@ -7,6 +7,7 @@ var Service, Characteristic;
  Characteristic.SecuritySystemCurrentState.AWAY_ARM = 1;
  Characteristic.SecuritySystemCurrentState.NIGHT_ARM = 2;
  Characteristic.SecuritySystemCurrentState.DISARMED = 3;
+
  Characteristic.SecuritySystemCurrentState.ALARM_TRIGGERED = 4;
  */
 
@@ -26,24 +27,35 @@ function LoxoneAlarm(config, platform, hap) {
     this._service.getCharacteristic(Characteristic.SecuritySystemCurrentState)
         .on('get', this._getSecuritySystemCurrentState.bind(this));
 
+    this._service.getCharacteristic(Characteristic.SecuritySystemTargetState)
+        .on('get', this._getSecuritySystemCurrentState.bind(this));
+
+    this._service.getCharacteristic(Characteristic.SecuritySystemTargetState)
+        .on('set', this._setSecuritySystemTargetState.bind(this));
 }
 
 LoxoneAlarm.prototype._getSecuritySystemCurrentState = function(callback) {
     var accessory = this;
     /*this.loxone.getValue(this.output, function(value) {
-        if (value == undefined) {
-            accessory.log.error(accessory.name + " is undefined when getting value");
-            callback(new Error("Could not get value for " + this.output));
-            return;
-        }
+     if (value == undefined) {
+     accessory.log.error(accessory.name + " is undefined when getting value");
+     callback(new Error("Could not get value for " + this.output));
+     return;
+     }
 
-        var on = value != '0';
+     var on = value != '0';
 
-        accessory.log(accessory.name + " is " + value, on);
-        callback(null, on);
-    });*/
+     accessory.log(accessory.name + " is " + value, on);
+     callback(null, on);
+     });*/
+
+    //TODO: is still hard coded implementation
 
     callback(null, Characteristic.SecuritySystemCurrentState.DISARMED);
+};
+
+LoxoneAlarm.prototype._setSecuritySystemTargetState = function(value, callback) {
+    callback("Could not set target state");
 };
 
 LoxoneAlarm.prototype.getServices = function() {
