@@ -7,6 +7,7 @@ var LoxoneAirQuality = require('./types/AirQualitySensor');
 var LoxoneOutlet = require('./types/Outlet');
 var LoxoneLightbulb = require('./types/LightBulb');
 var LoxoneFan = require('./types/Fan');
+var LoxoneAlarm = require('./types/Alarm');
 
 var Service, Characteristic, HAP;
 
@@ -27,7 +28,8 @@ var sensorsTypes = {
     'AirQualitySensors': LoxoneAirQuality,
     'Outlets': LoxoneOutlet,
     'LightBulbs': LoxoneLightbulb,
-    'Fans': LoxoneFan
+    'Fans': LoxoneFan,
+    'Alarms': LoxoneAlarm
 };
 
 function LoxonePlatform(log, config) {
