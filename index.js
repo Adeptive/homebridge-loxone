@@ -3,7 +3,7 @@
 var LoxoneAPI = require('loxone-nodejs');
 var LoxoneTemperatureSensor = require('./types/TemperatureSensor');
 var LoxoneHumiditySensor = require('./types/HumiditySensor');
-var LoxoneAirQuality = require('./types/AirQualitySensor');
+//var LoxoneAirQuality = require('./types/AirQualitySensor');
 var LoxoneOutlet = require('./types/Outlet');
 var LoxoneLightbulb = require('./types/LightBulb');
 var LoxoneFan = require('./types/Fan');
@@ -25,7 +25,7 @@ module.exports = function(homebridge) {
 var sensorsTypes = {
     'TemperatureSensors': LoxoneTemperatureSensor,
     'HumiditySensors': LoxoneHumiditySensor,
-    'AirQualitySensors': LoxoneAirQuality,
+    //'AirQualitySensors': LoxoneAirQuality,
     'Outlets': LoxoneOutlet,
     'LightBulbs': LoxoneLightbulb,
     'Fans': LoxoneFan,
