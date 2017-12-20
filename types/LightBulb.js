@@ -59,7 +59,7 @@ LoxoneLightbulb.prototype._getValue = function(callback) {
         var on = value != '0';
         if (accessory.type == 'Dimmer') {
             on = value != '0.0';
-        } else if (accessory.type == 'Dimmer-%') {
+        } else if (accessory.type == 'Dimmer-%' || accessory.type == 'RGB') {
             on = value != '0%';
         }
 
