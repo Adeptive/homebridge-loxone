@@ -1,6 +1,6 @@
 {
   "name": "homebridge-loxone",
-  "version": "1.5.2",
+  "version": "1.6.0",
   "description": "Homebridge Loxone",
   "author": "CONNCTED",
   "dependencies": {
@@ -20,6 +20,6 @@
   },
   "engines": {
     "node": ">=0.12.0",
-    "homebridge": "0.4.17"
+    "homebridge": "0.4.32"
   }
 }
