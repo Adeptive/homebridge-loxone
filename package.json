@@ -1,6 +1,6 @@
 {
   "name": "homebridge-loxone",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "description": "Homebridge Loxone",
   "author": "CONNCTED",
   "dependencies": {
@@ -19,6 +19,7 @@
     "url": "http://github.com/CONNCTED/homebridge-loxone/issues"
   },
   "engines": {
-    "node": ">=0.12.0"
+    "node": ">=9.3.0",
+    "homebridge": ">=0.4.45"
   }
 }
