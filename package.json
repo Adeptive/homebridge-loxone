@@ -1,7 +1,7 @@
 {
   "name": "homebridge-loxone-port",
   "version": "1.6.2",
-  "description": "Homebridge Loxone",
+  "description": "Homebridge Loxone port",
   "author": "CONNCTED",
   "dependencies": {
     "loxone-nodejs": "0.0.15"
@@ -13,10 +13,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/CONNCTED/homebridge-loxone.git"
+    "url": "git://github.com/josumart/homebridge-loxone-port.git"
   },
   "bugs": {
-    "url": "http://github.com/CONNCTED/homebridge-loxone/issues"
+    "url": "http://github.com/josumart/homebridge-loxone-port/issues"
   },
   "engines": {
     "node": ">=9.3.0",
