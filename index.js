@@ -43,6 +43,7 @@ function LoxonePlatform(log, config) {
         ip: config['ip_address'],
         username: config['username'] || 'admin',
         password: config['password'] || 'admin'
+        port: config['port'] || '80'
     });
 }
 
